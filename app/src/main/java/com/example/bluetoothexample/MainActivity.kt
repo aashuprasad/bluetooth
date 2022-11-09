@@ -3,6 +3,7 @@ package com.example.bluetoothexample
 import android.Manifest
 import android.app.Activity
 import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothDevice
 import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
@@ -47,20 +48,6 @@ class MainActivity : AppCompatActivity() {
             }
             else{
                 var intent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-                if (ActivityCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.BLUETOOTH_CONNECT
-                    ) != PackageManager.PERMISSION_GRANTED
-                ) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
-                    return@setOnClickListener
-                }
                 startActivityForResult(intent, REQUEST_CODE_ENABLE_BT)
             }
         }
@@ -80,7 +67,8 @@ class MainActivity : AppCompatActivity() {
         discoverableBtn.setOnClickListener {
             if(!bAdapter.isDiscovering){
                 Toast.makeText(this,"Making device discoverable",Toast.LENGTH_LONG).show()
-                var intent = Intent(Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE))
+                var intent:Intent = Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE).apply {
+                    putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300)}
                 startActivityForResult(intent, REQUEST_CODE_DISCOVERABLE_BT)
             }
         }
@@ -89,12 +77,13 @@ class MainActivity : AppCompatActivity() {
             if(bAdapter.isEnabled){
                 pairedTv.text = "Paired devices"
                 //get list of paired devices
-                val devices = bAdapter.bondedDevices
-                for(device in devices){
+                //val devices = bAdapter.bondedDevices
+                val pairedDevices: Set<BluetoothDevice>? = bAdapter?.bondedDevices
+                pairedDevices?.forEach { device ->
                     val deviceName = device.name
-
-                    pairedTv.append("\nDevice:  $deviceName, $device")
+                    val deviceHardwareAddress = device.address // MAC address
                 }
+
             }
             else{
                 Toast.makeText(this,"Turn on BT",Toast.LENGTH_LONG).show()
