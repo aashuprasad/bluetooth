@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -48,6 +49,17 @@ class MainActivity : AppCompatActivity() {
             }
             else{
                 var intent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+                if (ActivityCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.BLUETOOTH_CONNECT
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+                    {
+                        ActivityCompat.requestPermissions(this@MainActivity, arrayOf(Manifest.permission.BLUETOOTH_CONNECT),2)
+                    }
+                    return@setOnClickListener
+                }
                 startActivityForResult(intent, REQUEST_CODE_ENABLE_BT)
             }
         }
@@ -58,6 +70,17 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this,"Already off", Toast.LENGTH_LONG).show()
         }
         else{
+                if (ActivityCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.BLUETOOTH_CONNECT
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+                    {
+                        ActivityCompat.requestPermissions(this@MainActivity, arrayOf(Manifest.permission.BLUETOOTH_CONNECT),2)
+                    }
+                    return@setOnClickListener
+                }
             bAdapter.disable()
             bluetoothIv.setImageResource(R.drawable.ic_bluetooth_off)
             Toast.makeText(this,"Bluetooth turned off", Toast.LENGTH_LONG).show()
@@ -65,6 +88,17 @@ class MainActivity : AppCompatActivity() {
             } }
         //discoverable
         discoverableBtn.setOnClickListener {
+            if (ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.BLUETOOTH_CONNECT
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+                {
+                    ActivityCompat.requestPermissions(this@MainActivity, arrayOf(Manifest.permission.BLUETOOTH_CONNECT),2)
+                }
+                return@setOnClickListener
+            }
             if(!bAdapter.isDiscovering){
                 Toast.makeText(this,"Making device discoverable",Toast.LENGTH_LONG).show()
                 var intent:Intent = Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE).apply {
@@ -78,7 +112,20 @@ class MainActivity : AppCompatActivity() {
                 pairedTv.text = "Paired devices"
                 //get list of paired devices
                 //val devices = bAdapter.bondedDevices
+
+
                 val pairedDevices: Set<BluetoothDevice>? = bAdapter?.bondedDevices
+                if (ActivityCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.BLUETOOTH_CONNECT
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+                    {
+                        ActivityCompat.requestPermissions(this@MainActivity, arrayOf(Manifest.permission.BLUETOOTH_CONNECT),2)
+                    }
+                    return@setOnClickListener
+                }
                 pairedDevices?.forEach { device ->
                     val deviceName = device.name
                     val deviceHardwareAddress = device.address // MAC address
