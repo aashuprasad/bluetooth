@@ -1,5 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Bluetooth example</string>
     <string name="on">ON</string>
     <string name="off">OFF</string>
     <string name="discoverable">Discoverable</string>

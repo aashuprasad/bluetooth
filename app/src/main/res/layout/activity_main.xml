@@ -21,34 +21,35 @@
         android:id="@+id/bluetoothIv"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/ic_bluetooth_off"/>
+        android:src="@drawable/ic_bluetooth_off"
+        android:contentDescription="@string/todo" />
     <Button
         android:id="@+id/turnOnBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:text="ON"
+        android:text="@string/on"
         android:minWidth="200dp"/>
     <Button
         android:id="@+id/turnOffBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:text="OFF"
+        android:text="@string/off"
         android:minWidth="200dp"/>
     <Button
         android:id="@+id/discoverableBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:text="Discoverable"
+        android:text="@string/discoverable"
         android:minWidth="200dp"/>
     <Button
         android:id="@+id/pairedBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:text="Get paired devices"
+        android:text="@string/get_paired_devices"
         android:minWidth="200dp"/>
     <TextView
         android:id="@+id/pairedTv"
@@ -56,4 +57,11 @@
         android:layout_height="wrap_content"
         android:textColor="@color/black"
         android:padding="5dp"/>
+
+    <TextView
+        android:id="@+id/availableTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:textColor="@color/black" />
 </LinearLayout>
